@@ -2,12 +2,14 @@ from decimal import Decimal
 import boto3
 import os
 import simplejson as json
-from datetime import date
+from datetime import datetime
+import dateutil.tz
 
+zone = dateutil.tz.gettz('US/Central')
 TABLE_NAME = os.environ.get('TABLE_NAME')
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(TABLE_NAME)
-today = str(date.today())
+today = str(datetime.now(zone).date())
 
 def handler(event, context):
     body = json.loads(event['body'])
